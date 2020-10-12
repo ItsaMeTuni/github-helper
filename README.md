@@ -61,3 +61,11 @@ gith clone <repo name>
 ```
 
 It will run `git clone https://github.com/username/reponame`
+
+### Help
+
+Shows some help information about `gith`.
+
+```
+gith help
+```
