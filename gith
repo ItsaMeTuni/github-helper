@@ -86,6 +86,12 @@ def view_curr_repo():
 
 def create_repo(user_auth, username, private):
 
+    try:
+        subprocess.check_output(['git', 'status'])
+    except:
+        print('Not a git repository. Initialize a repository with \'git init\' first.')
+        return
+
     # get the name of the current working directory
     working_dir_name = os.getcwd().split('/')[-1]
 
@@ -114,6 +120,22 @@ def create_repo(user_auth, username, private):
         print(response.status_code)
         print(response.text)
 
+def show_help():
+
+    print('GitHub helper commands:')
+    print('')
+    print('    list                   :  See a list of all your repositories.')
+    print('')
+    print('    view                   :  Open the current repository\'s GitHub page')
+    print('                              Remote \'origin\' must be the GitHub repo.')
+    print('')
+    print('    clone <repo name>      :  Clone one of your repositories by name.')
+    print('                              Example: gith clone my-repository')
+    print('')
+    print('    create [--private/-p]  :  Create a GitHub repository for the current Git repository.')
+    print('                              The name of the current folder will be used as the repository\'s name.')
+    print('                              Example: gith create --private')
+
 if __name__ == '__main__':
 
     (user_auth, username) = init()
@@ -131,3 +153,9 @@ if __name__ == '__main__':
 
         elif sys.argv[1] == 'create':
             create_repo(user_auth, username, len(sys.argv) >= 3 and (sys.argv[2] == '-p' or sys.argv[2] == '--private'))
+
+        elif sys.argv[1] == 'help':
+            show_help()
+        
+        else:
+            show_help()
